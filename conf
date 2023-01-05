@@ -57,3 +57,8 @@ mousepad /etc/apache2/sites-enabled/test.conf
     </Directory>
 
 service apache2 restart
+
+
+https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-debian-10
+
+https://www.digitalocean.com/community/tutorials/how-to-set-up-password-authentication-with-apache-on-ubuntu-14-04
