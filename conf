@@ -1,0 +1,59 @@
+SIMPLE
+
+sudo apt update
+sudo apt install apache2
+
+sudo ufw app list
+sudo ufw allow 'WWW'
+sudo ufw status
+
+sudo systemctl status apache2
+hostname -I
+
+sudo mkdir -p /var/www/test
+sudo chown -R $USER:$USER /var/www/test
+sudo chmod -R 755 /var/www/test
+mousepad /var/www/test/index.html
+
+<html>
+    <head>
+        <title>Welcome to test!</title>
+    </head>
+    <body>
+        <h1>Success!  The test virtual host is working!</h1>
+    </body>
+</html>
+
+mousepad /etc/apache2/sites-available/test.conf
+
+<VirtualHost *:80>
+    ServerAdmin admin@test.com
+    ServerName test.com
+   * ServerAlias www.test.com
+    DocumentRoot /var/www/test
+   * ErrorLog ${APACHE_LOG_DIR}/error.log
+   * CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+a2ensite test.conf
+a2dissite 000-default.conf
+apache2ctl configtest
+
+systemctl reload apache2
+
+
+**Authentication**
+apt-get update
+apt-get install apache2 apache2-utils
+
+htpasswd -c /etc/apache2/.htpasswd tester
+mousepad /etc/apache2/sites-enabled/test.conf
+
+<Directory "/var/www/test">
+        AuthType Basic
+        AuthName "Restricted Content"
+        AuthUserFile /etc/apache2/.htpasswd
+        Require valid-user
+    </Directory>
+
+service apache2 restart
